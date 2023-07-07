@@ -36,14 +36,14 @@ public class Adequacy {
 
     @Mod.EventHandler
     public void onInitialization(FMLInitializationEvent event) {
-        logger.info("Initializing Adequacy client");
+        logger.info("Initializing Adequacy");
         logger.debug("Initializing event bus");
         eventBus = new EventBus();
         logger.debug("Initializing fonts");
         fontManager = new FontManager();
         logger.debug("Initializing modules");
         moduleManager = new ModuleManager();
-        logger.info("Adequacy client initialized");
+        logger.info("Adequacy initialized");
     }
 }
 
