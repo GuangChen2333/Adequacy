@@ -5,7 +5,6 @@
   "refmap": "mixins.adequacy.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "MixinGameSettings",
     "MixinGuiInGame"
   ],
   "mixins": []

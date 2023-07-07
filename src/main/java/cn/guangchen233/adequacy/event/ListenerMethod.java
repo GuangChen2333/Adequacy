@@ -1,6 +1,5 @@
 package cn.guangchen233.adequacy.event;
 
-import cn.guangchen233.adequacy.Adequacy;
 import cn.guangchen233.adequacy.event.annotations.EventHandler;
 import cn.guangchen233.adequacy.event.bases.BaseEvent;
 import cn.guangchen233.adequacy.event.interfaces.Listenable;
