@@ -1,0 +1,12 @@
+[
+  {
+    "modid": "adequacy",
+    "name": "Adequacy",
+    "description": "Adequacy Hack Client",
+    "version": "0.0.1",
+    "mcversion": "1.12.2",
+    "authorList": [
+      "GuangChen233"
+    ]
+  }
+]

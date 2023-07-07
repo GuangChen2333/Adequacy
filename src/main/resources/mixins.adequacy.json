@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.7",
+  "package": "cn.guangchen233.adequacy.injection.mixins",
+  "refmap": "mixins.adequacy.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MixinGameSettings",
+    "MixinGuiInGame"
+  ],
+  "mixins": []
+}

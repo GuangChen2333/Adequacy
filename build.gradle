@@ -1,0 +1,131 @@
+buildscript {
+    repositories {
+        maven { url = "https://crystal.app.lss233.com/repositories/minecraft" }
+        maven { url = 'https://maven.aliyun.com/repository/public/' }
+        maven { url = 'https://maven.aliyun.com/repository/gradle-plugin' }
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
+        classpath 'org.spongepowered:mixingradle:0.7.+'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'maven-publish'
+apply plugin: 'idea'
+
+version = project.modVersion
+group = 'cn.guangchen233.adequacy'
+archivesBaseName = 'adequacy'
+
+String javaVersion = '1.8'
+sourceCompatibility = targetCompatibility = javaVersion
+
+compileJava {
+    options.encoding = 'UTF-8'
+    sourceCompatibility = targetCompatibility = javaVersion
+}
+
+repositories {
+    maven { url = "https://crystal.app.lss233.com/repositories/minecraft" }
+    maven { url = 'https://maven.aliyun.com/repository/public/' }
+    mavenCentral()
+}
+
+minecraft {
+    mappings channel: 'stable', version: '39-1.12'
+
+    accessTransformer = file('src/main/resources/adequacy_at.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'info'
+            property 'fml.coreMods.load', 'cn.guangchen233.adequacy.injection.MixinLoader'
+            property 'mixin.env.disableRefMap', 'true'
+        }
+
+        server {
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
+    }
+}
+
+mixin {
+    add sourceSets.main, "mixins.adequacy.refmap.json"
+    config "mixins.adequacy.json"
+}
+
+configurations {
+    include
+    implementation.extendsFrom(include)
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
+    annotationProcessor 'org.spongepowered:mixin:0.8.1:processor'
+    include('org.spongepowered:mixin:0.8.1') {
+        exclude module: 'launchwrapper'
+        exclude module: 'log4j-core'
+        exclude module: 'guava'
+        exclude module: 'gson'
+        exclude module: 'commons-io'
+    }
+}
+
+jar {
+    manifest {
+        attributes(
+                ["FMLCorePluginContainsFMLMod": true,
+                 "FMLCorePlugin"              : "cn.guangchen233.adequacy.injection.MixinLoader",
+                 'MixinConfigs'               : 'mixins.adequacy.json',
+                 "ModSide"                    : "CLIENT",
+                 'tweakClass'                 : 'org.spongepowered.asm.launch.MixinTweaker',
+                 'TweakOrder'                 : 0,
+                 'ForceLoadAsMod'             : 'true',
+                 'FMLAT'                      : 'adequacy_at.cfg']
+        )
+    }
+    from { configurations.include.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+jar.finalizedBy('reobfJar')
+
+processResources {
+    filteringCharset 'UTF-8'
+
+    inputs.property "version", project.version
+
+    filesMatching("mcmod.info") {
+        expand "version": project.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+
+    rename '(.+_at.cfg)', 'META-INF/$1'
+}
+
+idea {
+    module {
+        inheritOutputDirs = true
+    }
+}
+
+tasks.register('prepareAssets', Copy) {
+    group = 'build'
+    from project.file('src/main/resources')
+    into project.file('build/classes/java/main')
+}
+
+classes.dependsOn(prepareAssets)
