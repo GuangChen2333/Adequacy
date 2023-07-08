@@ -1,8 +1,8 @@
 buildscript {
     repositories {
-        maven { url = "https://crystal.app.lss233.com/repositories/minecraft" }
         maven { url = 'https://maven.aliyun.com/repository/public/' }
         maven { url = 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url = 'https://maven.fastmirror.net/repositories/minecraft' }
         mavenCentral()
     }
 
@@ -24,15 +24,34 @@ archivesBaseName = 'adequacy'
 String javaVersion = '1.8'
 sourceCompatibility = targetCompatibility = javaVersion
 
+repositories {
+    maven { url = 'https://maven.aliyun.com/repository/public/' }
+    maven { url = 'https://maven.fastmirror.net/repositories/minecraft' }
+    mavenCentral()
+}
+
+configurations {
+    include
+    implementation.extendsFrom(include)
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
+
+    annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
+
+    include('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: 'launchwrapper'
+        exclude module: 'log4j-core'
+        exclude module: 'guava'
+        exclude module: 'gson'
+        exclude module: 'commons-io'
+    }
+}
+
 compileJava {
     options.encoding = 'UTF-8'
     sourceCompatibility = targetCompatibility = javaVersion
-}
-
-repositories {
-    maven { url = "https://crystal.app.lss233.com/repositories/minecraft" }
-    maven { url = 'https://maven.aliyun.com/repository/public/' }
-    mavenCentral()
 }
 
 minecraft {
@@ -59,23 +78,6 @@ minecraft {
 mixin {
     add sourceSets.main, "mixins.adequacy.refmap.json"
     config "mixins.adequacy.json"
-}
-
-configurations {
-    include
-    implementation.extendsFrom(include)
-}
-
-dependencies {
-    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
-    annotationProcessor 'org.spongepowered:mixin:0.8.1:processor'
-    include('org.spongepowered:mixin:0.8.1') {
-        exclude module: 'launchwrapper'
-        exclude module: 'log4j-core'
-        exclude module: 'guava'
-        exclude module: 'gson'
-        exclude module: 'commons-io'
-    }
 }
 
 jar {

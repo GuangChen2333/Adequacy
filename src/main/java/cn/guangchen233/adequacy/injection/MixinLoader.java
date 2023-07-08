@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Mixins;
 import javax.annotation.Nullable;
 import java.util.Map;
 
+@IFMLLoadingPlugin.MCVersion("1.12.2")
 @IFMLLoadingPlugin.Name("Adequacy")
 public class MixinLoader implements IFMLLoadingPlugin {
     public MixinLoader() {
