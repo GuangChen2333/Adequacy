@@ -36,7 +36,7 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
     }
 
     private void collectGarbage() {
-        final long currentTime = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis();
         this.cachedStrings.entrySet().stream().filter(entry -> currentTime - entry.getValue().getLastUsage() > CACHED_FONT_REMOVAL_TIME).forEach(entry -> {
             GL11.glDeleteLists(entry.getValue().getDisplayList(), 1);
             entry.getValue().setDeleted(true);
@@ -44,7 +44,7 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
         });
     }
 
-    public AWTFontRenderer(final Font font, final int startChar, final int stopChar) {
+    public AWTFontRenderer(Font font, int startChar, int stopChar) {
         this.fontHeight = -1;
         this.cachedStrings = new HashMap<>();
         this.textureID = 0;
@@ -56,7 +56,7 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
         AWTFontRenderer.activeFontRenderers.add(this);
     }
 
-    public AWTFontRenderer(final Font font) {
+    public AWTFontRenderer(Font font) {
         this(font, 0, 255);
     }
 
@@ -64,7 +64,7 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
         return (this.fontHeight - 8) / 2;
     }
 
-    public void drawString(final String text, final double x, final double y, final int color) {
+    public void drawString(String text, double x, double y, int color) {
         GlStateManager.pushMatrix();
         GlStateManager.scale(0.25, 0.25, 0.25);
         GL11.glTranslated(x * 2.0, y * 2.0 - 2.0, 0.0);
@@ -75,7 +75,7 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
         float alpha = (color >> 24 & 0xFF) / 255.0f;
         GlStateManager.color(red, green, blue, alpha);
         double currX = 0.0;
-        final CachedFont cached = this.cachedStrings.get(text);
+        CachedFont cached = this.cachedStrings.get(text);
         if (cached != null) {
             GL11.glCallList(cached.getDisplayList());
             cached.setLastUsage(System.currentTimeMillis());
@@ -88,7 +88,7 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
             GL11.glNewList(list, 4865);
         }
         GL11.glBegin(7);
-        for (final char ch : text.toCharArray()) {
+        for (char ch : text.toCharArray()) {
             if (Character.getNumericValue(ch) >= this.charLocations.length) {
                 GL11.glEnd();
                 GlStateManager.scale(4.0, 4.0, 4.0);
@@ -99,7 +99,7 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
                 GlStateManager.color(red, green, blue, alpha);
                 GL11.glBegin(7);
             } else if (this.charLocations.length > ch) {
-                final CharLocation fontChar = this.charLocations[ch];
+                CharLocation fontChar = this.charLocations[ch];
                 if (fontChar != null) {
                     this.drawChar(fontChar, (float) currX);
                     currX += fontChar.width - 8.0;
@@ -114,15 +114,15 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
         GlStateManager.popMatrix();
     }
 
-    private void drawChar(final CharLocation ch, final float x) {
-        final float width = (float) ch.width;
-        final float height = (float) ch.height;
-        final float srcX = (float) ch.x;
-        final float srcY = (float) ch.y;
-        final float renderX = srcX / this.textureWidth;
-        final float renderY = srcY / this.textureHeight;
-        final float renderWidth = width / this.textureWidth;
-        final float renderHeight = height / this.textureHeight;
+    private void drawChar(CharLocation ch, float x) {
+        float width = (float) ch.width;
+        float height = (float) ch.height;
+        float srcX = (float) ch.x;
+        float srcY = (float) ch.y;
+        float renderX = srcX / this.textureWidth;
+        float renderY = srcY / this.textureHeight;
+        float renderWidth = width / this.textureWidth;
+        float renderHeight = height / this.textureHeight;
         GL11.glTexCoord2f(renderX, renderY);
         GL11.glVertex2f(x, (float) 0.0);
         GL11.glTexCoord2f(renderX, renderY + renderHeight);
@@ -133,14 +133,14 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
         GL11.glVertex2f(x + width, (float) 0.0);
     }
 
-    private void renderBitmap(final int startChar, final int stopChar) {
-        final BufferedImage[] fontImages = new BufferedImage[stopChar];
+    private void renderBitmap(int startChar, int stopChar) {
+        BufferedImage[] fontImages = new BufferedImage[stopChar];
         int rowHeight = 0;
         int charX = 0;
         int charY = 0;
         for (int targetChar = startChar; targetChar < stopChar; ++targetChar) {
-            final BufferedImage fontImage = this.drawCharToImage((char) targetChar);
-            final CharLocation fontChar = new CharLocation(charX, charY, fontImage.getWidth(), fontImage.getHeight());
+            BufferedImage fontImage = this.drawCharToImage((char) targetChar);
+            CharLocation fontChar = new CharLocation(charX, charY, fontImage.getWidth(), fontImage.getHeight());
             if (fontChar.height > this.fontHeight) {
                 this.fontHeight = fontChar.height;
             }
@@ -162,8 +162,8 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
             }
         }
         this.textureHeight = charY + rowHeight;
-        final BufferedImage bufferedImage = new BufferedImage(this.textureWidth, this.textureHeight, 2);
-        final Graphics2D graphics2D = (Graphics2D) bufferedImage.getGraphics();
+        BufferedImage bufferedImage = new BufferedImage(this.textureWidth, this.textureHeight, 2);
+        Graphics2D graphics2D = (Graphics2D) bufferedImage.getGraphics();
         graphics2D.setFont(this.font);
         graphics2D.setColor(new Color(255, 255, 255, 0));
         graphics2D.fillRect(0, 0, this.textureWidth, this.textureHeight);
@@ -176,11 +176,11 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
         this.textureID = TextureUtil.uploadTextureImageAllocate(TextureUtil.glGenTextures(), bufferedImage, true, true);
     }
 
-    private BufferedImage drawCharToImage(final char ch) {
-        final Graphics2D graphics2D = (Graphics2D) new BufferedImage(1, 1, 2).getGraphics();
+    private BufferedImage drawCharToImage(char ch) {
+        Graphics2D graphics2D = (Graphics2D) new BufferedImage(1, 1, 2).getGraphics();
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         graphics2D.setFont(this.font);
-        final FontMetrics fontMetrics = graphics2D.getFontMetrics();
+        FontMetrics fontMetrics = graphics2D.getFontMetrics();
         int charWidth = fontMetrics.charWidth(ch) + 8;
         if (charWidth <= 8) {
             charWidth = 7;
@@ -189,8 +189,8 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
         if (charHeight <= 0) {
             charHeight = this.font.getSize();
         }
-        final BufferedImage fontImage = new BufferedImage(charWidth, charHeight, 2);
-        final Graphics2D graphics = (Graphics2D) fontImage.getGraphics();
+        BufferedImage fontImage = new BufferedImage(charWidth, charHeight, 2);
+        Graphics2D graphics = (Graphics2D) fontImage.getGraphics();
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         graphics.setFont(this.font);
         graphics.setColor(Color.WHITE);
@@ -198,9 +198,9 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
         return fontImage;
     }
 
-    public int getStringWidth(final String text) {
+    public int getStringWidth(String text) {
         int width = 0;
-        for (final char ch : text.toCharArray()) {
+        for (char ch : text.toCharArray()) {
             int index;
             if (ch < this.charLocations.length) {
                 index = ch;
@@ -208,7 +208,7 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
                 index = 3;
             }
             if (this.charLocations.length > index) {
-                final CharLocation fontChar = this.charLocations[index];
+                CharLocation fontChar = this.charLocations[index];
                 if (fontChar != null) {
                     width += fontChar.width - 8;
                 }
@@ -233,7 +233,7 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
         private final int width;
         private final int height;
 
-        CharLocation(final int x, final int y, final int width, final int height) {
+        CharLocation(int x, int y, int width, int height) {
             this.x = x;
             this.y = y;
             this.width = width;

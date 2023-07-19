@@ -15,10 +15,11 @@ import java.awt.*;
         name = "Logo",
         description = "Show the logo on the screen",
         category = ModuleCategory.GUI,
-        defaultEnable = true
+        defaultEnable = true,
+        showOnList = false
 )
 public class Logo extends BaseModule implements Listenable {
-    CustomFontRenderer font = Adequacy.fontManager.getCustomLightFont(48f);
+    CustomFontRenderer font = Adequacy.fontManager.getCustomLightFont(52f);
 
     @Override
     public void onEnable() {

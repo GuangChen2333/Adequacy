@@ -181,4 +181,94 @@ public class CustomFontRenderer extends FontRenderer {
         }
         return this.drawText(text, x, currY, color, false);
     }
+
+    public int getStringWidth(String text) {
+        if (text.contains("§")) {
+            String[] parts = text.split("§");
+            AWTFontRenderer currentFont = this.defaultFont;
+            int width = 0;
+            boolean bold = false;
+            boolean italic = false;
+            for (int index = 0; index < parts.length; ++index) {
+                String part = parts[index];
+                if (!part.isEmpty()) {
+                    if (index == 0) {
+                        width += currentFont.getStringWidth(part);
+                    }
+                    else {
+                        String words = part.substring(1);
+                        char type = part.charAt(0);
+                        int colorIndex = getColorIndex(type);
+                        if (colorIndex < 16) {
+                            bold = false;
+                            italic = false;
+                        }
+                        else if (colorIndex == 17) {
+                            bold = true;
+                        }
+                        else if (colorIndex == 20) {
+                            italic = true;
+                        }
+                        else if (colorIndex == 21) {
+                            bold = false;
+                            italic = false;
+                        }
+                        if (bold && italic) {
+                            currentFont = this.boldItalicFont;
+                        }
+                        else if (bold) {
+                            currentFont = this.boldFont;
+                        }
+                        else if (italic) {
+                            currentFont = this.italicFont;
+                        }
+                        else {
+                            currentFont = this.defaultFont;
+                        }
+                        width += currentFont.getStringWidth(words);
+                    }
+                }
+            }
+            return width / 2;
+        }
+        return this.defaultFont.getStringWidth(text) / 2;
+    }
+
+    public static int getColorIndex(char type) {
+        switch (type) {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9': {
+                return type - '0';
+            }
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f': {
+                return type - 'a' + 10;
+            }
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o': {
+                return type - 'k' + 16;
+            }
+            case 'r': {
+                return 21;
+            }
+            default: {
+                return -1;
+            }
+        }
+    }
 }

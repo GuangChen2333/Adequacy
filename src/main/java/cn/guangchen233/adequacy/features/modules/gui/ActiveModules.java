@@ -18,7 +18,8 @@ import java.util.List;
         name = "ActiveModules",
         description = "Show the active modules on the screen",
         category = ModuleCategory.GUI,
-        defaultEnable = true
+        defaultEnable = true,
+        showOnList = false
 )
 public class ActiveModules extends BaseModule implements Listenable {
     CustomFontRenderer font = Adequacy.fontManager.customLightFont;
@@ -38,16 +39,16 @@ public class ActiveModules extends BaseModule implements Listenable {
         ScaledResolution scaledResolution = new ScaledResolution(minecraft);
         int width = scaledResolution.getScaledWidth();
 
-        List<AbstractModule> enableModules = Adequacy.moduleManager.getEnableModules();
+        List<AbstractModule> enableModules = Adequacy.moduleManager.getShouldShowModules();
         enableModules.sort((o1, o2) -> font.getStringWidth(o2.name) - font.getStringWidth(o1.name));
 
         int y = 5;
         for (AbstractModule module : enableModules) {
-            int x = width - font.getStringWidth(module.name) - 5;
+            int x = width - font.getStringWidth(module.name) - 2;
 
             font.drawStringWithShadow(module.name, x, y, new Color(255, 255, 255).getRGB());
 
-            y += font.FONT_HEIGHT + 3;
+            y += font.FONT_HEIGHT + 2;
         }
     }
 }

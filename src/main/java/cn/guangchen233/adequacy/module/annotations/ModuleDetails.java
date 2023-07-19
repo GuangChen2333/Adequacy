@@ -15,4 +15,5 @@ public @interface ModuleDetails {
     ModuleCategory category();
     int defaultKeyBind() default 0;
     boolean defaultEnable() default false;
+    boolean showOnList() default true;
 }

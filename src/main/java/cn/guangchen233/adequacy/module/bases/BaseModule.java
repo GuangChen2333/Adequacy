@@ -10,6 +10,7 @@ public class BaseModule extends AbstractModule {
         this.logger = LogManager.getLogger("Adequacy/" + name);
         this.description = getDetails().description();
         this.category = getDetails().category();
+        this.show = getDetails().showOnList();
         this.setToggle(getDetails().defaultEnable());
     }
 

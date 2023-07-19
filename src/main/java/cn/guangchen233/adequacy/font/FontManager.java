@@ -60,8 +60,8 @@ public class FontManager extends AbstractMinecraftInstance {
     }
 
     public FontManager() {
-        this.customFont = getCustomFont(35f);
-        this.iconFont = getIconFont(35f);
-        this.customLightFont = getCustomLightFont(35f);
+        this.customFont = getCustomFont(30f);
+        this.iconFont = getIconFont(30f);
+        this.customLightFont = getCustomLightFont(30f);
     }
 }

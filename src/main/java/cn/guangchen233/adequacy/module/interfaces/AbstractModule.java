@@ -9,6 +9,7 @@ public abstract class AbstractModule extends AbstractMinecraftInstance {
     public String description;
     public Logger logger;
     public ModuleCategory category;
+    public boolean show;
     private boolean toggle;
 
     public void onEnable() {
@@ -21,6 +22,10 @@ public abstract class AbstractModule extends AbstractMinecraftInstance {
 
     public boolean isEnabled() {
         return toggle;
+    }
+
+    public boolean isShow() {
+        return show;
     }
 
     public void setToggle(boolean enable) {
