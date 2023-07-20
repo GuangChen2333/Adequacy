@@ -6,7 +6,8 @@ public enum ModuleCategory {
     MOVEMENT("Movement", IconFontUtil.SPEED),
     RENDER("Render", IconFontUtil.BRIGHT),
     WORLD("World", IconFontUtil.EARTH),
-    GUI("Gui", IconFontUtil.CAST);
+    GUI("Gui", IconFontUtil.CAST),
+    CHAT("Chat", IconFontUtil.BROADCAST);
 
     private final String name;
     private final String icon;

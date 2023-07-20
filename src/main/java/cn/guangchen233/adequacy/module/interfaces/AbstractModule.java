@@ -28,6 +28,10 @@ public abstract class AbstractModule extends AbstractMinecraftInstance {
         return show;
     }
 
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+
     public void setToggle(boolean enable) {
         if (enable) {
             this.enable();
