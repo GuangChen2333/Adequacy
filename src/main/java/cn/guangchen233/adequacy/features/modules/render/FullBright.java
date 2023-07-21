@@ -11,8 +11,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @ModuleDetails(
         name = "FullBright",
         description = "There will always be light that will guide you on your way",
-        category = ModuleCategory.RENDER,
-        defaultEnable = true
+        category = ModuleCategory.RENDER
 )
 public class FullBright extends BaseModule implements Listenable {
     private float prevGamma = -1f;
