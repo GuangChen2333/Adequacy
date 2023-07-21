@@ -6,10 +6,13 @@ import cn.guangchen233.adequacy.module.ModuleManager;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.opengl.Display;
 
+@SideOnly(Side.CLIENT)
 @Mod(
         modid = Adequacy.ID,
         name = Adequacy.NAME,
