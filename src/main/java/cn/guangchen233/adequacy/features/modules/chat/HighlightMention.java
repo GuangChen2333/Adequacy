@@ -30,21 +30,19 @@ public class HighlightMention extends BaseModule {
     @SubscribeEvent
     public void onReceiveChat(ClientChatReceivedEvent event) {
         String playerName = minecraft.player.getName();
-        String message = event.getMessage().getFormattedText();
+        String message = event.getMessage().getUnformattedText();
 
         if (message.contains(playerName)) {
             if (message.startsWith("<" + playerName + ">")) return;
 
-            String newMessage = event.getMessage().getFormattedText().replace(
+            String newMessage = message.replace(
                     playerName,
                     ChatFormatting.GOLD + playerName + ChatFormatting.RESET
             );
 
             event.setMessage(
                     new TextComponentString(
-                            event.getMessage().getFormattedText().replace(
-                                    event.getMessage().getFormattedText(), newMessage
-                            )
+                            newMessage
                     )
             );
         }
