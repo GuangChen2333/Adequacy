@@ -1,6 +1,6 @@
 package cn.guangchen233.adequacy.font;
 
-import cn.guangchen233.adequacy.interfaces.AbstractMinecraftInstance;
+import cn.guangchen233.adequacy.interfaces.Globals;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @SideOnly(Side.CLIENT)
-public class AWTFontRenderer extends AbstractMinecraftInstance {
+public class AWTFontRenderer implements Globals {
     private static boolean assumeNonVolatile;
     private static final ArrayList<AWTFontRenderer> activeFontRenderers;
     private static int gcTicks;

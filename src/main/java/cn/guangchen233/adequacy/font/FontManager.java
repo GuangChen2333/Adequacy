@@ -1,14 +1,14 @@
 package cn.guangchen233.adequacy.font;
 
 import cn.guangchen233.adequacy.Adequacy;
-import cn.guangchen233.adequacy.interfaces.AbstractMinecraftInstance;
+import cn.guangchen233.adequacy.interfaces.Globals;
 import net.minecraft.client.gui.FontRenderer;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.Objects;
 
-public class FontManager extends AbstractMinecraftInstance {
+public class FontManager implements Globals {
     public FontRenderer minecraftFont = minecraft.fontRenderer;
     public final CustomFontRenderer customFont;
     public final CustomFontRenderer customLightFont;

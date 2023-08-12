@@ -3,6 +3,7 @@ package cn.guangchen233.adequacy.module;
 import cn.guangchen233.adequacy.features.modules.chat.HighlightMention;
 import cn.guangchen233.adequacy.features.modules.gui.ActiveModules;
 import cn.guangchen233.adequacy.features.modules.gui.Logo;
+import cn.guangchen233.adequacy.features.modules.movement.Burrow;
 import cn.guangchen233.adequacy.features.modules.render.FullBright;
 import cn.guangchen233.adequacy.module.interfaces.AbstractModule;
 
@@ -20,10 +21,15 @@ public class ModuleManager {
         registerModule(new FullBright());
 
         registerModule(new HighlightMention());
+        registerModule(new Burrow());
     }
 
     private void registerModule(AbstractModule module) {
         if (!modules.contains(module)) modules.add(module);
+    }
+
+    public void onKey(int keyCode) {
+        modules.forEach((m) -> {if (m.keyBind == keyCode) m.toggle();});
     }
 
     public List<AbstractModule> getAllModules() {

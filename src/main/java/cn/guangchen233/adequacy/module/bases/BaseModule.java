@@ -11,6 +11,7 @@ public class BaseModule extends AbstractModule {
         this.description = getDetails().description();
         this.category = getDetails().category();
         this.show = getDetails().showOnList();
+        this.keyBind = getDetails().defaultKeyBind();
         this.setToggle(getDetails().defaultEnable());
     }
 
