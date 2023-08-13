@@ -21,4 +21,6 @@ public class BaseModule extends AbstractModule {
         }
         throw new IllegalStateException("No annotation on target class " + this.getClass().getCanonicalName() + "!");
     }
+
+
 }

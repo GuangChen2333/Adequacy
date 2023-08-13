@@ -1,20 +1,12 @@
-package cn.guangchen233.adequacy.interfaces;
+package cn.guangchen233.adequacy.module.interfaces;
 
-import net.minecraft.client.Minecraft;
+import cn.guangchen233.adequacy.interfaces.MinecraftInstanceInterface;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-
-public interface Globals {
-    @NotNull
-    Minecraft minecraft = Minecraft.getMinecraft();
-
-    @NotNull
-    Minecraft mc = minecraft;
-
+public interface ModuleInterface extends MinecraftInstanceInterface {
     @Nullable
     default EntityPlayerSP getPlayer() {
         return minecraft.player;

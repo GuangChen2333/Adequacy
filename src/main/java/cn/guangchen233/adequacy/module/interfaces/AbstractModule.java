@@ -1,10 +1,9 @@
 package cn.guangchen233.adequacy.module.interfaces;
 
-import cn.guangchen233.adequacy.interfaces.Globals;
 import cn.guangchen233.adequacy.module.ModuleCategory;
 import org.apache.logging.log4j.Logger;
 
-public abstract class AbstractModule implements Globals {
+public abstract class AbstractModule implements ModuleInterface {
     public String name;
     public String description;
     public Logger logger;

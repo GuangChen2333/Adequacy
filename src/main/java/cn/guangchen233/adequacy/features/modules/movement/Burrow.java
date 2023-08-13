@@ -3,7 +3,7 @@ package cn.guangchen233.adequacy.features.modules.movement;
 import cn.guangchen233.adequacy.module.ModuleCategory;
 import cn.guangchen233.adequacy.module.annotations.ModuleDetails;
 import cn.guangchen233.adequacy.module.bases.BaseModule;
-import cn.guangchen233.adequacy.utils.NonNullContext;
+import cn.guangchen233.adequacy.utils.Dispatcher;
 import net.minecraft.util.text.TextComponentString;
 import org.lwjgl.input.Keyboard;
 
@@ -23,14 +23,14 @@ public class Burrow extends BaseModule {
 
     @Override
     public void onEnable() {
-        NonNullContext.runSafe((context) -> {
+        Dispatcher.runSafe((context) -> {
             context.player.sendMessage(new TextComponentString("Module Burrow has been enabled"));
         });
     }
 
     @Override
     public void onDisable() {
-        NonNullContext.runSafe((context) -> {
+        Dispatcher.runSafe((context) -> {
             context.player.sendMessage(new TextComponentString("Module Burrow has been disabled"));
         });
     }
