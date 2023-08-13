@@ -36,6 +36,7 @@ configurations {
 }
 
 dependencies {
+    implementation 'org.jetbrains:annotations:24.0.0'
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
 
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'

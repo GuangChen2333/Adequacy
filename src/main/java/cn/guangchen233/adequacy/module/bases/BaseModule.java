@@ -11,6 +11,7 @@ public class BaseModule extends AbstractModule {
         this.description = getDetails().description();
         this.category = getDetails().category();
         this.show = getDetails().showOnList();
+        this.keyBind = getDetails().defaultKeyBind();
         this.setToggle(getDetails().defaultEnable());
     }
 
@@ -20,4 +21,6 @@ public class BaseModule extends AbstractModule {
         }
         throw new IllegalStateException("No annotation on target class " + this.getClass().getCanonicalName() + "!");
     }
+
+
 }

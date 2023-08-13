@@ -1,8 +1,10 @@
 package cn.guangchen233.adequacy;
 
 import cn.guangchen233.adequacy.event.EventBus;
+import cn.guangchen233.adequacy.event.ForgeEventProcessor;
 import cn.guangchen233.adequacy.font.FontManager;
 import cn.guangchen233.adequacy.module.ModuleManager;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -42,6 +44,7 @@ public class Adequacy {
         logger.info("Initializing Adequacy");
         logger.debug("Initializing event bus");
         eventBus = new EventBus();
+        MinecraftForge.EVENT_BUS.register(ForgeEventProcessor.INSTANCE);
         logger.debug("Initializing fonts");
         fontManager = new FontManager();
         logger.debug("Initializing modules");

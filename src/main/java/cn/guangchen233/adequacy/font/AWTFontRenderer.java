@@ -1,6 +1,6 @@
 package cn.guangchen233.adequacy.font;
 
-import cn.guangchen233.adequacy.interfaces.AbstractMinecraftInstance;
+import cn.guangchen233.adequacy.interfaces.MinecraftInstanceInterface;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureUtil;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @SideOnly(Side.CLIENT)
-public class AWTFontRenderer extends AbstractMinecraftInstance {
+public class AWTFontRenderer implements MinecraftInstanceInterface {
     private static boolean assumeNonVolatile;
     private static final ArrayList<AWTFontRenderer> activeFontRenderers;
     private static int gcTicks;
@@ -28,6 +28,7 @@ public class AWTFontRenderer extends AbstractMinecraftInstance {
     private int textureWidth;
     private int textureHeight;
 
+    @SuppressWarnings("unused")
     public static void garbageCollectionTick() {
         if (AWTFontRenderer.gcTicks++ > GC_TICKS) {
             AWTFontRenderer.activeFontRenderers.forEach(AWTFontRenderer::collectGarbage);
