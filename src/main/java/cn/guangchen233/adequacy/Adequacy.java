@@ -44,7 +44,7 @@ public class Adequacy {
         logger.info("Initializing Adequacy");
         logger.debug("Initializing event bus");
         eventBus = new EventBus();
-        MinecraftForge.EVENT_BUS.register(ForgeEventProcessor.INSTANCE);
+        MinecraftForge.EVENT_BUS.register(new ForgeEventProcessor());
         logger.debug("Initializing fonts");
         fontManager = new FontManager();
         logger.debug("Initializing modules");

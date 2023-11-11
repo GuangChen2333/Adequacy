@@ -1,12 +1,12 @@
 package cn.guangchen233.adequacy.features.modules.render;
 
+import cn.guangchen233.adequacy.Adequacy;
+import cn.guangchen233.adequacy.event.annotations.EventHandler;
+import cn.guangchen233.adequacy.event.events.GuiRenderEvent;
 import cn.guangchen233.adequacy.event.interfaces.Listenable;
 import cn.guangchen233.adequacy.module.ModuleCategory;
 import cn.guangchen233.adequacy.module.annotations.ModuleDetails;
 import cn.guangchen233.adequacy.module.bases.BaseModule;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleDetails(
         name = "FullBright",
@@ -19,7 +19,7 @@ public class FullBright extends BaseModule implements Listenable {
     @Override
     public void onEnable() {
         this.prevGamma = minecraft.gameSettings.gammaSetting;
-        MinecraftForge.EVENT_BUS.register(this);
+        Adequacy.eventBus.registerListener(this);
     }
 
     @Override
@@ -27,11 +27,11 @@ public class FullBright extends BaseModule implements Listenable {
         if (this.prevGamma == -1f) return;
         minecraft.gameSettings.gammaSetting = prevGamma;
         this.prevGamma = -1f;
-        MinecraftForge.EVENT_BUS.unregister(this);
+        Adequacy.eventBus.registerListener(this);
     }
 
-    @SubscribeEvent
-    public void onUpdate(LivingEvent.LivingUpdateEvent event) {
+    @EventHandler
+    public void onUpdate(GuiRenderEvent event) {
         if (this.isEnabled()) {
             if (minecraft.gameSettings.gammaSetting <= 100f) {
                 minecraft.gameSettings.gammaSetting++;
