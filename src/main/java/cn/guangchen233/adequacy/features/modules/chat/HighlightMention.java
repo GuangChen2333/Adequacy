@@ -1,13 +1,14 @@
 package cn.guangchen233.adequacy.features.modules.chat;
 
+import cn.guangchen233.adequacy.Adequacy;
+import cn.guangchen233.adequacy.event.annotations.EventHandler;
+import cn.guangchen233.adequacy.event.events.ClientMessageReceivedEvent;
+import cn.guangchen233.adequacy.event.interfaces.Listenable;
 import cn.guangchen233.adequacy.module.ModuleCategory;
 import cn.guangchen233.adequacy.module.annotations.ModuleDetails;
 import cn.guangchen233.adequacy.module.bases.BaseModule;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @ModuleDetails(
         name = "HighlightMention",
@@ -16,19 +17,19 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
         defaultEnable = true,
         showOnList = false
 )
-public class HighlightMention extends BaseModule {
+public class HighlightMention extends BaseModule implements Listenable {
     @Override
     public void onEnable() {
-        MinecraftForge.EVENT_BUS.register(this);
+        Adequacy.eventBus.registerListener(this);
     }
 
     @Override
     public void onDisable() {
-        MinecraftForge.EVENT_BUS.unregister(this);
+        Adequacy.eventBus.registerListener(this);
     }
 
-    @SubscribeEvent
-    public void onReceiveChat(ClientChatReceivedEvent event) {
+    @EventHandler
+    public void onReceiveChat(ClientMessageReceivedEvent event) {
         String playerName = minecraft.player.getName();
         String message = event.getMessage().getUnformattedText();
 
