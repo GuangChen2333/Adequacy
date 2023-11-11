@@ -1,16 +1,28 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.aliyun.com/repository/public/' }
-        maven { url = 'https://maven.aliyun.com/repository/gradle-plugin' }
-        maven { url = 'https://maven.fastmirror.net/repositories/minecraft' }
-        mavenCentral()
+        maven {
+            name = 'Aliyun'
+            url = 'https://maven.aliyun.com/repository/public'
+        }
+        maven {
+            name = 'Lss233'
+            url = 'https://lss233.littleservice.cn/repositories/minecraft'
+        }
+        maven {
+            name = 'Minecraft Forge'
+            url = 'https://files.minecraftforge.net/maven'
+        }
+        maven {
+            name = 'Sponge Powered'
+            url = 'https://repo.spongepowered.org/repository/maven-public/'
+        }
     }
-
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
         classpath 'org.spongepowered:mixingradle:0.7.+'
     }
 }
+
 
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
@@ -19,16 +31,10 @@ apply plugin: 'idea'
 
 version = project.modVersion
 group = 'cn.guangchen233.adequacy'
-archivesBaseName = 'adequacy'
+archivesBaseName = 'Adequacy'
 
 String javaVersion = '1.8'
 sourceCompatibility = targetCompatibility = javaVersion
-
-repositories {
-    maven { url = 'https://maven.aliyun.com/repository/public/' }
-    maven { url = 'https://maven.fastmirror.net/repositories/minecraft' }
-    mavenCentral()
-}
 
 configurations {
     include
@@ -36,18 +42,43 @@ configurations {
 }
 
 dependencies {
-    implementation 'org.jetbrains:annotations:24.0.0'
+    // Minecraft
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2859'
-
     annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
-
     include('org.spongepowered:mixin:0.7.11-SNAPSHOT') {
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+        exclude module: 'guava'
         exclude module: 'launchwrapper'
         exclude module: 'log4j-core'
-        exclude module: 'guava'
-        exclude module: 'gson'
-        exclude module: 'commons-io'
     }
+
+    // Others
+    implementation 'org.jetbrains:annotations:24.0.0'
+}
+
+repositories {
+    maven {
+        name = 'Aliyun'
+        url = 'https://maven.aliyun.com/repository/public'
+    }
+    maven {
+        name = 'AliyunPlugin'
+        url = 'https://maven.aliyun.com/repository/gradle-plugin'
+    }
+    maven {
+        name = 'Lss233'
+        url = 'https://lss233.littleservice.cn/repositories/minecraft'
+    }
+    maven {
+        name = 'Minecraft Forge'
+        url = 'https://files.minecraftforge.net/maven'
+    }
+    maven {
+        name = 'Sponge Powered'
+        url = 'https://repo.spongepowered.org/repository/maven-public/'
+    }
+    mavenLocal()
 }
 
 compileJava {
@@ -84,20 +115,20 @@ mixin {
 jar {
     manifest {
         attributes(
-                ["FMLCorePluginContainsFMLMod": true,
-                 "FMLCorePlugin"              : "cn.guangchen233.adequacy.injection.MixinLoader",
-                 'MixinConfigs'               : 'mixins.adequacy.json',
-                 "ModSide"                    : "CLIENT",
-                 'tweakClass'                 : 'org.spongepowered.asm.launch.MixinTweaker',
-                 'TweakOrder'                 : 0,
-                 'ForceLoadAsMod'             : 'true',
-                 'FMLAT'                      : 'adequacy_at.cfg']
+                [
+                        "FMLCorePluginContainsFMLMod": true,
+                        "FMLCorePlugin"              : "cn.guangchen233.adequacy.injection.MixinLoader",
+                        'MixinConfigs'               : 'mixins.adequacy.json',
+                        "ModSide"                    : "CLIENT",
+                        'tweakClass'                 : 'org.spongepowered.asm.launch.MixinTweaker',
+                        'TweakOrder'                 : 0,
+                        'ForceLoadAsMod'             : 'true',
+                        'FMLAT'                      : 'adequacy_at.cfg'
+                ]
         )
     }
     from { configurations.include.collect { it.isDirectory() ? it : zipTree(it) } }
 }
-
-jar.finalizedBy('reobfJar')
 
 processResources {
     filteringCharset 'UTF-8'
@@ -110,13 +141,8 @@ processResources {
 
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
+        expand "version": project.version
     }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-
-    rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 idea {
